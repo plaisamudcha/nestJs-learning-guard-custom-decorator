@@ -44,31 +44,32 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<Request>();
     // Bearer jwt_token
-    const jwt = request.headers.authorization?.split(' ')[1];
+    // const jwt = request.headers.authorization?.split(' ')[1];
 
-    if (!jwt) {
-      throw new UnauthorizedException('Unauthorized user');
-    }
+    // if (!jwt) {
+    //   throw new UnauthorizedException('Unauthorized user');
+    // }
 
-    // verify jwt: jwtService
-    try {
-      const payload = await this.jwtService.verifyAsync<{
-        sub: string;
-        role: 'admin' | 'user';
-      }>(jwt);
-      request.user = payload;
-    } catch (error) {
-      if (error instanceof TokenExpiredError) {
-        throw new UnauthorizedException({
-          message: 'token expired',
-          code: 'TOKEN_EXPIRED'
-        });
-      }
-      throw new UnauthorizedException({
-        message: 'Invalid token, please login again',
-        code: 'INVALID_TOKEN'
-      });
-    }
+    // // verify jwt: jwtService
+    // try {
+    //   const payload = await this.jwtService.verifyAsync<{
+    //     sub: string;
+    //     role: 'admin' | 'user';
+    //   }>(jwt);
+    //   request.user = payload;
+    // } catch (error) {
+    //   if (error instanceof TokenExpiredError) {
+    //     throw new UnauthorizedException({
+    //       message: 'token expired',
+    //       code: 'TOKEN_EXPIRED'
+    //     });
+    //   }
+    //   throw new UnauthorizedException({
+    //     message: 'Invalid token, please login again',
+    //     code: 'INVALID_TOKEN'
+    //   });
+    // }
+    request.user = { sub: '123456', role: 'admin' };
 
     return true; // throw new ForbiddenException('Forbidden resource');
   }

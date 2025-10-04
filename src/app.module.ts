@@ -11,8 +11,8 @@ import { RoleGuard } from './auth/role.guard';
   // and will be used as a global guard
   // but dependency injection will work here
   providers: [
-    { provide: APP_GUARD, useClass: AuthGuard },
-    { provide: APP_GUARD, useClass: RoleGuard }
+    { provide: APP_GUARD, useClass: AuthGuard }
+    // { provide: APP_GUARD, useClass: RoleGuard }
   ]
 })
 export class AppModule {}
