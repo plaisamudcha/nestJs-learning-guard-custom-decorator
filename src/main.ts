@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ValidationException } from './exceptions/validation.exception';
+import { ApiFilter } from './common/filter/api.filter';
+import { NotFoundFilter } from './common/filter/not-found.filter';
+import { PrismaFilter } from './common/filter/prisma.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,8 +21,17 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      validateCustomDecorators: true
+      validateCustomDecorators: true,
+      exceptionFactory(errors) {
+        throw new ValidationException(errors);
+      }
     })
+  );
+
+  app.useGlobalFilters(
+    new PrismaFilter(),
+    new ApiFilter(),
+    new NotFoundFilter()
   );
 
   await app.listen(process.env.PORT ?? 3000);
