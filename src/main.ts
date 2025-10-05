@@ -38,3 +38,16 @@ async function bootstrap() {
 }
 
 void bootstrap();
+
+// we can use this in interceptor also
+// type successResponse<T> = {
+//   success: true;
+//   message: string;
+//   data?: T;
+//   meta?: {
+//     totalItems: number;
+//     limit: number;
+//     currentPage: number;
+//     totalPages: number;
+//   };
+// };

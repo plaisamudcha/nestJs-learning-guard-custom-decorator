@@ -1,13 +1,14 @@
 import {
   Controller,
   Get,
-  NotFoundException,
   Post,
   SetMetadata,
-  UseFilters
+  UseFilters,
+  UseInterceptors
   //   UseGuards
 } from '@nestjs/common';
 import { NotFoundFilter } from 'src/common/filter/not-found.filter';
+import { TransformInterceptor } from 'src/common/interceptors/transform.interceptor';
 // import { RoleGuard } from 'src/auth/role.guard';
 import { CurrentUserDto } from 'src/dtos/current-user.dto';
 import { CurrentUser } from 'src/types/current-user.decorator';
@@ -28,14 +29,16 @@ export class ProductsController {
     return user;
   }
 
+  @UseInterceptors(TransformInterceptor)
   @UseFilters(NotFoundFilter)
   @SetMetadata('IS_PUBLIC_KEY', true)
   @Get()
   findAllProducts() {
-    throw new NotFoundException({
-      code: 'PRODUCTS_NOT_FOUND',
-      detail: 'No products found'
-    });
+    // throw new NotFoundException({
+    //   code: 'PRODUCTS_NOT_FOUND',
+    //   detail: 'No products found'
+    // });
+    console.log('inside controller');
     return 'get all products';
   }
 }
